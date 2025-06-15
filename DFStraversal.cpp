@@ -1,40 +1,45 @@
 #include<iostream>
-#include<bits/stdc++.h>
+#include<list>
+#include<unordered_map>
+#include<queue>
+
 using namespace std;
 
 int main() {
-    int t;
-    cin >> t;
-    while(t--) {
-        int a,b;
-        int xk,yk;
-        int xq,yq;
-        cin >> a >> b;
-        cin >> xk >> yk;
-        cin >> xq >> yq;
-        
-        if((abs(xk-xq)!=a && abs(yk-yq)!=b) || (abs(xk-xq)!=b && abs(yk-yq)!=a)) {
-            cout << 0 << endl;
-        }
 
-        int count = 0;
-        int x;
-        int y;
-        int x1;
-        int y1;
-
-
-        if((x = a+xk) && (y = yq-b)) {
-            count++;
-        }
-
-        if((x1 = b+yk) && (y1 = xq-a)) {
-            count++;
-            if(x1==x && y1==y) {
-                count--;
+    void dfs(int node,unordered_map<int,bool> &visited,unordered_map<int,list<int>> &adjList,vector<int> &component) {
+        visited[node] = true;
+        component.push_back(node);
+    
+        for(auto i : adjList[node]) {
+            if(!visited[i]) {
+                dfs(node,visited,adjList,component);
             }
         }
-
-        cout << count << endl;
     }
-}
+
+    vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
+    {
+        vector<vector<int>> ans;
+        unordered_map<int,list<int>> adjList;
+        unordered_map<int,bool> visited;
+
+        for(int i = 0; i<edges.size(); i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+
+        for(int i = 0; i<V; i++) {
+            if(!visited[i]) {
+            vector<int> component;
+            dfs(i,visited,adjList,component);
+            ans.push_back(component);
+        }
+
+        return ans;
+    }
+
+};
