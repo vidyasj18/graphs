@@ -115,3 +115,51 @@ private:
         
     }
 };
+
+
+//  QS - 3:  FLOOD FILL - LEETCODE
+
+class Solution {
+private:
+    void dfs(int i,int j,vector<vector<int>>& image,int color,
+    int colorog) {
+        int m = image.size();
+        int n = image[0].size();
+        queue<pair<int,int>> q;
+        q.push({i,j});
+        image[i][j] = color;
+
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+
+            vector<pair<int,int>> dir = {{0,-1},{0,1},{-1,0},{1,0}};
+
+            for(auto it:dir) {
+                int x1 = it.first + x;
+                int y1 = it.second + y;
+
+                if(x1>=0 && y1>=0 && x1<m && y1<n) {
+                    if(image[x1][y1]==colorog) {
+                        image[x1][y1] = color;
+                        q.push({x1,y1});
+                    }
+                }
+            }
+        }
+    }
+
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int colorog = image[sr][sc];
+
+        if(colorog==color) {
+            return image;
+        }
+        
+        dfs(sr,sc,image,color,colorog);
+
+        return image;
+    }
+};
