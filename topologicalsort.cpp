@@ -3,7 +3,7 @@
 #include<stack>
 #include<unordered_map>
 
-// only occurs in undirected acyclic graph done using dfs
+// only occurs in directed acyclic graph done using dfs
 // linearly represented/ output format is linear
 // T.C : O(v+e)  S.C : O(N)
 
@@ -49,3 +49,4 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
 
     return ans;
 }
+
