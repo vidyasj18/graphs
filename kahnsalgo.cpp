@@ -8,6 +8,8 @@ using namespace std;
 // topological sorting using BFS algorithm
 
 vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
+
+    // created adj list
     vector<vector<int>>adj(v);
     for(int i = 0; i<e; i++) {
         int u = edges[i][0];
@@ -39,7 +41,7 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
         q.pop();
         ans.push_back(node);
 
-        // for the node in q, we increment the indegrees of the elements present in that adjlist node.
+        // for the node in q, we decrement the indegrees of the elements present in that adjlist node.
 
         for(auto i:adj[node]) {
             indegree[i]--;

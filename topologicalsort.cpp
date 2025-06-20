@@ -12,7 +12,7 @@ using namespace std;
 void dfs(int node,vector<vector<int>> &adj,unordered_map<int,bool> &vis,stack<int> &st) {
     vis[node] = true;
     for(auto i: adj[node]) {
-        // if i not visited we recursively trverse through dfs function and mark it visited in the beginning.
+        // if i not visited we recursively traverse through dfs function and mark it visited in the beginning.
         if(!vis[i]) {
             dfs(i,adj,vis,st);
         }

@@ -102,6 +102,7 @@ private:
 
 
 // FOR DIRECTED GRAPHS
+// using DFS 
 
 class Solution {
 private:
@@ -129,7 +130,7 @@ private:
             }
         }
         
-        // recursively mark the pathvisited of nodes is not visited/mark 0
+        // recursively mark the pathvisited of nodes not visited/mark 0
         pathvis[node] = 0;
         // returning false cz no cycle is found
         return false;
