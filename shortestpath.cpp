@@ -91,3 +91,51 @@ private:
         
     }
 };
+
+
+// shortest path in undirected graph having unit weights.
+
+class Solution {
+  public:
+    // Function to find the shortest path from source to all other nodes
+    // adj list is given directly. 
+    vector<int> shortestPath(vector<vector<int>>& adj, int src) {
+        int n = adj.size();
+        int dist[n];
+        
+        // we mark infinite value to all the distances in the beginning.
+        for(int i = 0; i<n; i++) {
+            dist[i] =  INT_MAX;
+        }
+        
+        dist[src] = 0;
+        queue<int> q;
+        q.push(src);
+        
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            
+            for(auto it: adj[node]) {
+                if(dist[node] + 1 < dist[it]) {
+                    dist[it] = dist[node] + 1;
+                    // we push it to change the distance for the respective it's nodes in adj list 
+                    // as dist[t] has been changed.
+                    q.push(it);
+                }
+            }
+        }
+        
+        // all are marked -1 in the beginning.
+        vector<int> ans(n,-1);
+        for(int i = 0; i<n; i++) {
+            // if the dist is not INT_MAX then mark dist or else -1.
+            if(dist[i]!=INT_MAX) {
+                ans[i] = dist[i];
+            }
+        }
+        
+        return ans;
+        
+    }
+};
