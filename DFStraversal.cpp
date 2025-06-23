@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+class solution: {
 
     void dfs(int node,unordered_map<int,bool> &visited,unordered_map<int,list<int>> &adjList,vector<int> &component) {
         visited[node] = true;

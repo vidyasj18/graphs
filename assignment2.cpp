@@ -116,3 +116,56 @@ public:
         }
     }
 };
+
+
+// QS - 3 : FIND EVENTUAL SAFE PLACES - LEETCODE
+// done using BFS
+// all paths should end up at terminal nodes or safenodes
+// safenodes endup at terminal nodes
+// terminal nodes does not have outgoing edges.
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        // reverse the edges, as in convert incoming edges to 
+        // outgoing and outgoing to incoming.
+        vector<vector<int>> adj(graph.size());
+        vector<int> indegree(graph.size(),0);
+        for(int i = 0; i<graph.size(); i++) {
+
+            // initially i->it
+            // now convert that to it->i
+            for(auto it: graph[i]) {
+                adj[it].push_back(i);
+                indegree[i]++;
+            }
+        }
+
+        queue<int> q;
+        for(int i = 0; i<graph.size(); i++) {
+            if(indegree[i]==0) {
+                q.push(i);
+            }
+        }
+
+        vector<int> ans;
+
+        while(!q.empty()) {
+            int front = q.front();
+            ans.push_back(front);
+            q.pop();
+
+            for(auto it:adj[front]) {
+                indegree[it]--;
+                if(indegree[it]==0) {
+                    q.push(it);
+                }
+            }
+        }
+
+        // sorted cz they needed it in sorted manner.
+        sort(ans.begin(),ans.end());
+        return ans;
+
+    }
+};
