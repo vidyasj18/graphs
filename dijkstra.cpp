@@ -47,9 +47,10 @@ class Solution {
                 // relax the node - update the distance.
                 if (curDist + edgeWeight < dist[adjNode]) {
                     dist[adjNode] = curDist + edgeWeight;
-                    pq.push({dist[adjNode], adjNode});
+                    pq.push({dist[adjNode], adjNode});  
                 }
             }
         }
     }
 };
+

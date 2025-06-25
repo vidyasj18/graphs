@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// shortest path calculation in directed a cyclic graph using dfs algo.
+// shortest path calculation in directed acyclic graph using dfs algo.
 // step 1 : do a toposort on the graph.
 // step 2 : take the nodes out of the stack and relax the stack.
 
@@ -19,6 +19,7 @@ private:
         }
         
         st.push(i);
+
     }
 
   public:
@@ -29,7 +30,7 @@ private:
             return {};
         }
         
-        // creating adj list --- {u,v,wt} = adj element
+        // creating adj list ---edges : {u,v,wt} = adj element
         vector<pair<int,int>> adj[V];
         for(int i = 0; i<E; i++) {
             int u = edges[i][0];
@@ -50,7 +51,7 @@ private:
         }
         
         // all the distances are initially marked as infinite.
-        // source node is marked as zero. as the distance between source and itself is zerro.
+        // source node is marked as zero. as the distance between source and itself is zero.
         // here, source is zero.
 
         vector<int> dist(V,INT_MAX);
@@ -68,6 +69,8 @@ private:
             }
             
             for(auto it: adj[node]) {
+                // here, if adj[v] is already visited then it contains some value otherwise INT_MAX.
+                // so if condition always works out.
                 int v = it.first;
                 int wt = it.second;
                 
