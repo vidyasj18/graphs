@@ -51,6 +51,8 @@ class Solution {
                 }
             }
         }
+
+        return dist;
     }
 };
 
