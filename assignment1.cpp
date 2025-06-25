@@ -163,3 +163,151 @@ public:
         return image;
     }
 };
+
+// QS - 4 : surrounding regions - leetcode
+
+class Solution {
+private:
+    void bfs(int i, int j, vector<vector<char>> &board) {
+        int m = board.size();
+        int n = board[0].size();
+        board[i][j] = 'T';
+        queue<pair<int,int>> q;
+        q.push({i,j});
+
+        vector<pair<int,int>> dir = {{0,-1},{0,1},{-1,0},{1,0}};
+
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+
+            for(auto it: dir) {
+                int x1 = x + it.first;
+                int y1 = y + it.second;
+
+                if(x1>=0 && y1>=0 && x1<m && y1<n) {
+                    if(board[x1][y1]=='O') {
+                        board[x1][y1] = 'T';
+                        q.push({x1,y1});
+                    }
+                }
+
+            }
+        }
+    }
+
+public:
+    void solve(vector<vector<char>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+
+        for(int i = 0; i<m; i++) {
+            if(board[i][0] == 'O') {
+                bfs(i,0,board);
+            }
+
+            if(board[i][n-1] == 'O') {
+                bfs(i,n-1,board);
+            }
+        }
+
+        for(int j = 0; j<n; j++) {
+            if(board[0][j] == 'O') {
+                bfs(0,j,board);
+            }
+
+            if(board[m-1][j] == 'O') {
+                bfs(m-1,j,board);
+            }
+        }
+
+        for(int i = 0; i<m; i++) {
+            for(int j = 0; j<n; j++) {
+
+                if(board[i][j]=='O') {
+                    board[i][j] = 'X';               
+                }
+
+                if(board[i][j]=='T') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+};
+
+
+// QS - 5: number of enclaves - leetcode
+
+class Solution {
+private:
+    void bfs(int i,int j,vector<vector<int>>& grid,
+    vector<vector<int>> &vis) {
+        vis[i][j] = 1;
+        int m = grid.size();
+        int n = grid[0].size();
+        queue<pair<int,int>> q;
+        q.push({i,j});
+
+        vector<pair<int,int>> dir = {{0,-1},{0,1},{-1,0},{1,0}};
+
+        while(!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+
+            for(auto it: dir) {
+                int x1 = it.first + x;
+                int y1 = it.second + y;
+
+                if(x1>=0 && y1>=0 && x1<m && y1<n) {
+                    if(grid[x1][y1]==1 && !vis[x1][y1]) {
+                        vis[x1][y1] = 1;
+                        q.push({x1,y1});
+                    }
+                }
+            }
+        }
+    }
+
+public:
+    int numEnclaves(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> vis(m,vector<int>(n,0));
+
+        for(int i = 0; i<m; i++) {
+            if(grid[i][0]==1) {
+                bfs(i,0,grid,vis);
+            }
+
+            if(grid[i][n-1]==1) {
+                bfs(i,n-1,grid,vis);
+            }
+        }
+
+        for(int j = 0; j<n; j++) {
+            if(grid[0][j]==1) {
+                bfs(0,j,grid,vis);
+            }
+
+            if(grid[m-1][j]==1) {
+                bfs(m-1,j,grid,vis);
+            }
+        }
+
+        int cnt = 0;
+
+        for(int i = 0; i<m; i++) {
+            for(int j = 0; j<n; j++) {
+                if(grid[i][j]==1 && !vis[i][j]) {
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+
+    }
+};
