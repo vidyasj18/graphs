@@ -55,3 +55,51 @@ public:
 
     }
 };
+
+// QS - 2 : PATH WITH MINIMUM EFFORT - LEETCODE
+
+class Solution {
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int m = heights.size();
+        int n = heights[0].size();
+
+        vector<vector<int>> dist(m, vector<int>(n,INT_MAX));
+        dist[0][0] = 0;
+
+        priority_queue<pair<int, pair<int,int>>, 
+                       vector<pair<int, pair<int,int>>>, 
+                       greater<>> q;
+
+        q.push({0,{0,0}});
+
+        vector<pair<int,int>> dir = {{-1,0},{1,0},{0,-1},{0,1}};
+
+        while(!q.empty()) {
+            int maxi = q.top().first;
+            int r = q.top().second.first;
+            int c = q.top().second.second;
+            q.pop();
+
+            if(r==m-1 && c==n-1) {
+                return maxi;
+            }
+
+            for(int i = 0; i<4; i++) {
+                int newr = r + dir[i].first;
+                int newc = c + dir[i].second;
+
+                if(newr>=0 && newc>=0 && newr<m && newc<n) {
+                    int newmaxi = max(maxi,abs(heights[r][c] - heights[newr][newc]));
+                    if(newmaxi<dist[newr][newc]) {
+                        dist[newr][newc] = newmaxi;
+                        q.push({newmaxi,{newr,newc}});
+                    }
+                }
+            }
+
+        }
+
+        return -1;
+    }
+};
