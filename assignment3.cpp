@@ -162,3 +162,54 @@ public:
     }
 };
 
+
+// QS - 4 : Network Delay time - LEETCODE
+
+
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<pair<int,int>>> adj(n+1);
+        for(int i = 0; i<times.size(); i++) {
+            int u = times[i][0];
+            int v = times[i][1];
+            int w = times[i][2];
+
+            adj[u].push_back({v,w});
+        }
+
+        // *
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> q;
+        q.push({0,k});
+        // *
+        vector<int> dist(n+1,INT_MAX);
+        dist[k] = 0;
+
+        while(!q.empty()) {
+            auto[wt,node] = q.top();
+            q.pop();
+
+            for(auto it: adj[node]) {
+                int edw = it.second;
+                int adjNode = it.first;
+
+                if(dist[node] + edw <dist[adjNode]) {
+                    dist[adjNode] = dist[node] + edw;
+                    q.push({dist[adjNode],adjNode});
+                }
+            }
+        }
+
+        int ans = 0;
+        for(int i = 1; i<=n; i++) {
+            if(dist[i]==INT_MAX) {
+                return -1;
+            }
+
+            ans = max(ans,dist[i]);
+        }
+
+        return ans;
+    }
+};
+
