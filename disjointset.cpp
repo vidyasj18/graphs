@@ -4,6 +4,7 @@
 using namespace std;
 
 // DISJOINT SET: VV IMP for OA's
+// rank can be quoted as heirarchy
 
 class DisjointSet {
     vector<int> rank,parent,size;
