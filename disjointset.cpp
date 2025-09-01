@@ -94,7 +94,8 @@ int main() {
 
     else cout << "Not same" << endl;
 
-    ds.unionByRank(3,7);
+    // union by size
+    ds.unionBySize(3,7);
 
     if(ds.findUPar(3) == ds.findUPar(7)) {
         cout << "same" << endl;
