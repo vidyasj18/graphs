@@ -115,3 +115,66 @@ public:
         return cnt;
     }
 };
+
+// rotten oranges
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        int cnt = -1;
+        int fresh = 0;
+        queue<pair<int,int>> q;
+
+        for(int i = 0; i<n; i++) {
+            for(int j = 0; j<m; j++) {
+                if(grid[i][j]==2) {
+                    q.push({i,j});
+                }
+
+                else if(grid[i][j]==1) {
+                    fresh++;
+                }
+            }
+        }
+
+        if(fresh==0) {
+            return 0;
+        }
+
+        vector<pair<int,int>> dir = {{-1,0},{1,0},{0,-1},{0,1}};
+        while(!q.empty()) {
+            int s = q.size();
+            cnt++;
+
+            for(int k = 0; k<s; k++) {
+                auto[i,j] = q.front();
+                q.pop();
+
+                for(auto d: dir) {
+                    int newi = i + d.first;
+                    int newj = j + d.second;
+
+                    if(newi>=0 && newi<n && newj>=0 && newj<m &&
+                    grid[newi][newj]==1) {
+                        grid[newi][newj] = 2;
+                        q.push({newi,newj});
+                        fresh--;
+                    }
+                }
+            }
+        }
+
+        if(fresh==0) {
+            return cnt;
+        }
+
+        else {
+            return -1;
+        }
+
+        
+    }
+};
