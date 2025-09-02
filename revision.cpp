@@ -70,3 +70,48 @@ class solution {
         return ans;
     }
 };
+
+
+// number of provinces
+
+class Solution {
+private:
+    void dfs(int i,vector<int> &visited, vector<vector<int>> &adj) {
+        visited[i] = 1;
+
+        for(auto j: adj[i]) {
+            if(!visited[j]) {
+                dfs(j,visited,adj);
+            }
+        }
+    }
+
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        // matrix to vector conversion
+        int n = isConnected.size();
+        int m = isConnected[0].size();
+
+        vector<vector<int>> adj(n);
+
+        for(int i = 0; i<n; i++) {
+            for(int j = 0; j<m; j++) {
+                if(isConnected[i][j]==1 && i!=j) {
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+
+        int cnt = 0;
+        vector<int> visited(n,0);
+        for(int i = 0; i<n; i++) {
+            if(!visited[i]) {
+                cnt++;
+                dfs(i,visited,adj);
+            }
+        }
+
+        return cnt;
+    }
+};
